@@ -5,7 +5,7 @@
 <body>
 <h1> Winestore search </h1>
 <p> Please select your search parameters: </p>
-<form> 
+<form action="answers.php" method="GET">
 <h4> Wine Name: </h4>
 <input type="text" id="wineName">
 <br />
@@ -16,34 +16,84 @@
 <br />
 <h4> Region </h4>
 <?php 
-$regionslist = array('Sydney','Melbourne','Brisbane','Tasmania','Adelaide','Perth','Darwin','ACT');
- 
-echo '<select name="regions">'; 
- 
-/* For each value of the array assign variable name "city" */
-foreach($regionslist as $region){ 
- echo '<option value="' . $region . '">' . $region . '</option>';
-} 
-echo'</select>';
+	// get the region data from the database
+	
+	include_once('./php/dataaccess.php');
+	$db = createDBConnection();
+	
+	$regions = getRegions($db);
+	
+		 
+	echo '<select name="regions">'; 
+	 
+	/* Populate the region list */
+	foreach($regions as $region){ 
+	 echo '<option value="' . $region . '">' . $region . '</option>';
+	} 
+	echo'</select>';
 ?>
 
 <br />
 <br />
+<h4> Grape Variety </h4>
+<?php 
+	// get the grape variety data from the database
+	
+	include_once('./php/dataaccess.php');
+	$db = createDBConnection();
+	
+	$varieties = getVariety($db);
+	
+		 
+	echo '<select name="variety">'; 
+	echo '<option value=" "> </option>';
+	/* Populate the grape variety list */
+	foreach($varieties as $variety){ 
+	 echo '<option value="' . $variety . '">' . $variety . '</option>';
+	} 
+	
+	echo'</select>';
+?>
+<br />
+<br />
 <h4> Year </h4>
+<?php 
+	// get the year data from the database
+	$years = array();
+	
+	include_once('./php/dataaccess.php');
+	$db = createDBConnection();
+	
+	$years = getYearRange($db);
+	
+		 
+	echo '<select name="years">'; 
+	echo '<option value=" "> </option>';
+	 
+	/* Populate the region list */
+	foreach($years as $year){ 
+	 echo '<option value="' . $year . '">' . $year . '</option>';
+	} 
+	echo'</select>';
+?>
 <br />
 <br />
 <h4> Min Stock </h4>
+<input type="text" id="minstock" size="10">
 <br />
 <br />
 <h4> Max Ordered </h4>
+<input type="text" id="maxordered" size="10">
 <br />
 <br />
 <h4> Price Range </h4>
-<p> Min </p>
-<p> Max </p>
+Min:
+<input type="text" id="minPrice" size="10">
+Max:
+<input type="text" id="maxPrice" size="10">
 <br />
 <br />
-
+<input type="submit" name="submit" value="Search!">
 </form>
 
 </body>
