@@ -88,27 +88,4 @@ function getYearRange($db) {
 	return $years;
 }
 
-//$query = 'select min(year), max(year) from wine;'
-
-
-// get results for results page
-
-// $query = '	select  GROUP_CONCAT(DISTINCT(gr.variety)) as WineVarieties, w.wine_name,  w.year, i.cost, i.on_hand, win.winery_name, wts.totalSold, wtsr.TotalSalesRevenue
-// from wine w
-// inner join wine_variety wv on w.wine_id = wv.wine_id
-// inner join grape_variety gr on wv.variety_id = gr.variety_id
-// inner join inventory i on w.wine_id = i.wine_id
-// inner join winery win on w.winery_id = win.winery_id
-// inner join (select sum(qty) as totalSold, wine_id 
-						 // from items
-						 // group by wine_id) as wts on wts.wine_id = w.wine_id
-// inner join (select wine_id, sum(price) as TotalSalesRevenue
-						 // from items
-						 // group by wine_id) as wtsr on wtsr.wine_id = w.wine_id
-// group by  w.wine_name,  w.year, i.cost, i.on_hand, win.winery_name, wts.totalSold, wtsr.TotalSalesRevenue;'
-
-// test
-
-
-
 ?>
