@@ -12,7 +12,6 @@ if (isset($_SESSION['results'])) {
   echo '<p>' . $_SESSION['results'] . '</p>';
 }
 
-
 ?>
 
 

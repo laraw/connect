@@ -7,11 +7,11 @@
 <p> Please select your search parameters: </p>
 <form action="answers.php" method="GET">
 <h4> Wine Name: </h4>
-<input type="text" id="wineName">
+<input type="text" id="wineName" name="wineName">
 <br />
 <br />
 <h4> Winery Name: </h4>
-<input type="text" id="winery">
+<input type="text" id="winery" name="winery">
 <br />
 <br />
 <h4> Region </h4>
@@ -24,7 +24,7 @@
 	$regions = getRegions($db);
 	
 		 
-	echo '<select name="regions">'; 
+	echo '<select id="region" name="region"> <option value=""> </option>'; 
 	 
 	/* Populate the region list */
 	foreach($regions as $region){ 
@@ -45,8 +45,8 @@
 	$varieties = getVariety($db);
 	
 		 
-	echo '<select name="variety">'; 
-	echo '<option value=" "> </option>';
+	echo '<select id="variety" name="variety">'; 
+	echo '<option value=""> </option>';
 	/* Populate the grape variety list */
 	foreach($varieties as $variety){ 
 	 echo '<option value="' . $variety . '">' . $variety . '</option>';
@@ -67,8 +67,8 @@
 	$years = getYearRange($db);
 	
 		 
-	echo '<select name="years">'; 
-	echo '<option value=" "> </option>';
+	echo '<select id="year" name="year">'; 
+	echo '<option value=""> </option>';
 	 
 	/* Populate the region list */
 	foreach($years as $year){ 
@@ -79,21 +79,21 @@
 <br />
 <br />
 <h4> Min Stock </h4>
-<input type="text" id="minstock" size="10">
+<input type="text" id="minStock" name="minStock" size="10">
 <br />
 <br />
 <h4> Max Ordered </h4>
-<input type="text" id="maxordered" size="10">
+<input type="text" id="maxOrdered" name="maxOrdered" size="10">
 <br />
 <br />
 <h4> Price Range </h4>
 Min:
-<input type="text" id="minPrice" size="10">
+<input type="text" id="minPrice" name="minPrice" size="10">
 Max:
-<input type="text" id="maxPrice" size="10">
+<input type="text" id="maxPrice" name="maxPrice" size="10">
 <br />
 <br />
-<input type="submit" name="submit" value="Search!">
+<input type="submit" name="submit">
 </form>
 
 </body>

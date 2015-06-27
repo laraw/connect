@@ -13,8 +13,6 @@ function createDBConnection() {
 }
 
 
-
-
 // function for getting regions from drop down list
 function getRegions($db) {
 	$regions = array();
