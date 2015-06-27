@@ -14,7 +14,8 @@ $searchWine = addslashes(trim($_GET['wineName'])); // wine name
 $searchWinery = addslashes(trim($_GET['winery']));
 $searchRegion = addslashes(trim($_GET['region']));
 $searchVariety = addslashes(trim($_GET['variety']));
-$searchYear = addslashes(trim($_GET['year']));
+$searchMinYear = addslashes(trim($_GET['minyear']));
+$searchMaxYear = addslashes(trim($_GET['maxyear']));
 $searchMinStock = addslashes(trim($_GET['minStock']));
 $searchMinOrdered = addslashes(trim($_GET['minOrdered']));
 $searchMinPrice = addslashes(trim($_GET['minPrice']));
@@ -88,9 +89,14 @@ if($searchVariety <> "") {
 	$query = $query . " and WineVarieties like " . "'%" . $searchVariety . "%'";
 }
 
-if($searchYear <> "") {
-	$query = $query . " and w.year = " . "'" . $searchYear . "'";
+if($searchMinYear <> "") {
+	$query = $query . " and w.year >= " . "'" . $searchMinYear . "'";
 }
+
+if($searchMaxYear <> "") {
+	$query = $query . " and w.year <= " . "'" . $searchMaxYear . "'";
+}
+
 
 if($searchMinOrdered <> "") {
 	$query = $query . " and totalSold >= " . $searchMinOrdered;
@@ -128,8 +134,11 @@ try {
 	$stmt = $db->query($query);
 	 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 					$rowCount++;
-					printf("%-40s %-20s\n", $row["WineName"], $row["WineVarieties"], $row["Year"], $row["Stock"], 
+					
+					printf("%-40s %-20s %-20s %-20s %-20s %-20s %-20s \n", $row["WineName"], $row["WineVarieties"], $row["Year"], $row["Stock"], 
 							$row["Cost"], $row["TotalSold"], $row["TotalSalesRevenue"]);
+					
+					
 	}
 }
 catch(PDOException $e) {

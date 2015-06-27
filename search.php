@@ -56,7 +56,7 @@
 ?>
 <br />
 <br />
-<h4> Year </h4>
+<h4> Min Year </h4>
 <?php 
 	// get the year data from the database
 	$years = array();
@@ -67,7 +67,28 @@
 	$years = getYearRange($db);
 	
 		 
-	echo '<select id="year" name="year">'; 
+	echo '<select id="minyear" name="minyear">'; 
+	echo '<option value=""> </option>';
+	 
+	/* Populate the region list */
+	foreach($years as $year){ 
+	 echo '<option value="' . $year . '">' . $year . '</option>';
+	} 
+	echo'</select>';
+?>
+<br />
+<br 
+<h4> Max Year </h4>
+<?php 
+	// get the year data from the database
+	$years = array();
+	
+	include_once('./php/dataaccess.php');
+	$db = createDBConnection();
+	
+	$years = getYearRange($db);
+	
+	echo '<select id="maxyear" name="maxyear">'; 
 	echo '<option value=""> </option>';
 	 
 	/* Populate the region list */
