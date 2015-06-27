@@ -82,8 +82,8 @@
 <input type="text" id="minStock" name="minStock" size="10">
 <br />
 <br />
-<h4> Max Ordered </h4>
-<input type="text" id="maxOrdered" name="maxOrdered" size="10">
+<h4> Min Ordered </h4>
+<input type="text" id="maxOrdered" name="minOrdered" size="10">
 <br />
 <br />
 <h4> Price Range </h4>

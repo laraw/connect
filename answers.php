@@ -16,7 +16,7 @@ $searchRegion = addslashes(trim($_GET['region']));
 $searchVariety = addslashes(trim($_GET['variety']));
 $searchYear = addslashes(trim($_GET['year']));
 $searchMinStock = addslashes(trim($_GET['minStock']));
-$searchMaxOrdered = addslashes(trim($_GET['maxOrdered']));
+$searchMinOrdered = addslashes(trim($_GET['minOrdered']));
 $searchMinPrice = addslashes(trim($_GET['minPrice']));
 $searchMaxPrice = addslashes(trim($_GET['maxPrice']));
 
@@ -45,20 +45,21 @@ if(!$data) {
 
 // the actual query
 
-$query = "select  GROUP_CONCAT(DISTINCT(gr.variety)) as WineVarieties, w.wine_name,  w.year, i.cost, i.on_hand, win.winery_name, wts.totalSold, wtsr.TotalSalesRevenue
- from wine w
- inner join wine_variety wv on w.wine_id = wv.wine_id
- inner join grape_variety gr on wv.variety_id = gr.variety_id
- inner join inventory i on w.wine_id = i.wine_id
- inner join winery win on w.winery_id = win.winery_id
- inner join region reg on reg.region_id = win.region_id
- inner join (select sum(qty) as totalSold, wine_id 
-						  from items
-						 group by wine_id) as wts on wts.wine_id = w.wine_id
- inner join (select wine_id, sum(price) as TotalSalesRevenue
-						  from items
-						  group by wine_id) as wtsr on wtsr.wine_id = w.wine_id 
-  where 1 = 1";
+$query = "select  GROUP_CONCAT(DISTINCT(gr.variety)) as WineVarieties, w.wine_name as WineName,  
+		 w.year as Year, i.cost as Cost, i.on_hand as Stock, win.winery_name as Winery, wts.totalSold as TotalSold, wtsr.TotalSalesRevenue as TotalSalesRevenue
+		 from wine w
+		 inner join wine_variety wv on w.wine_id = wv.wine_id
+		 inner join grape_variety gr on wv.variety_id = gr.variety_id
+		 inner join inventory i on w.wine_id = i.wine_id
+		 inner join winery win on w.winery_id = win.winery_id
+		 inner join region reg on reg.region_id = win.region_id
+		 inner join (select sum(qty) as totalSold, wine_id 
+								  from items
+								 group by wine_id) as wts on wts.wine_id = w.wine_id
+		 inner join (select wine_id, sum(price) as TotalSalesRevenue
+								  from items
+								  group by wine_id) as wtsr on wtsr.wine_id = w.wine_id 
+		  where 1 = 1";
  
 
 // set the rowcount 
@@ -89,23 +90,26 @@ if($searchVariety <> "") {
 if($searchYear <> "") {
 	$query = $query . " and w.year = " . "'" . $searchYear . "'";
 }
-/*
-if($searchMaxOrdered <> "") {
-	
+
+if($searchMinOrdered <> "") {
+	$query = $query . " and totalSold >= " . $searchMinOrdered;
 }
+
 
 if($searchMinStock <> "") {
-	'';
+	$query = $query . " and i.on_hand >= " . $searchMinStock;
 }
 
+
 if($searchMinPrice <> "") {
-	'';
+	$query = $query . " and i.cost >= " . $searchMinPrice;
 }
 
 if($searchMaxPrice <> "") {
-	'';
+	$query = $query . " and i.cost <= " . $searchMaxPrice;
 }
-*/
+
+
 
 
 // complete the query
@@ -118,12 +122,15 @@ $rowCount = 0;
 
 // store the query in a session object
 
-
+as WineVarieties, w.wine_name as WineName,  
+		 w.year as Year, i.cost as Cost, i.on_hand as Stock, win.winery_name as Winery, wts.totalSold as TotalSold, wtsr.TotalSalesRevenue as TotalSalesRevenue
+		 
 try {
 	$stmt = $db->query($query);
 	 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 					$rowCount++;
-					printf("%-40s %-20s\n", $row["wine_name"], $row["winery_name"]);
+					printf("%-40s %-20s\n", $row["WineName"], $row["WineVarieties"], $row["Year"], $row["Stock"], 
+							$row["Cost"], $row["TotalSold"], $row["TotalSalesRevenue"]);
 	}
 }
 catch(PDOException $e) {
