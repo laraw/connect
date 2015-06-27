@@ -1,6 +1,6 @@
 <?php
 require_once('./php/dataaccess.php');
-require_once('./php/helper.php');
+//require_once('./php/helper.php');
 
 session_start();
 $db = createDBConnection();
@@ -32,16 +32,24 @@ foreach($_GET as $val) {
 
 if(!$data) {
 	$_SESSION['results'] = "You didn't search for anything!";
+	
 	header( 'Location: results.php' ) ;
 }
 	
 
-// validation checks -- check that number values are actual numbers (??? anything else)
-// if(!checkisNum($searchMinStock) || !checkisNum($searchMaxOrdered) || !checkisNum($searchMinPrice) || !checkisNum($searchMaxPrice))
+// validation checks -- check that number values are actual numbers 
+// if(!ctype_digit($searchMinStock) || !ctype_digit($searchMaxOrdered) || !ctype_digit($searchMinPrice) || !ctype_digit($searchMaxPrice))
 // {
+	// $data = false;
 	// $_SESSION['results'] = "Not a valid number!";
 	// header( 'Location: results.php' ) ;
 // }
+
+if($searchMinYear > $searchMaxYear) {
+	$data = false;
+	$_SESSION['results'] = "Your minimum year is greater than your maximum!";
+	header( 'Location: results.php' ) ;
+}
 
 
 // the actual query
@@ -86,7 +94,7 @@ if($searchRegion <> "") {
 }
 
 if($searchVariety <> "") {
-	$query = $query . " and WineVarieties like " . "'%" . $searchVariety . "%'";
+	$query = $query . " and gr.variety like " . "'%" . $searchVariety . "%'";
 }
 
 if($searchMinYear <> "") {
@@ -132,6 +140,7 @@ $rowCount = 0;
 		 
 try {
 	$stmt = $db->query($query);
+	$res = $stmt->fetch(PDO::FETCH_ASSOC);
 	 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 					$rowCount++;
 					
@@ -140,6 +149,7 @@ try {
 					
 					
 	}
+	$_SESSION['queryRes'] = $res;
 }
 catch(PDOException $e) {
 	echo $e->getMessage();

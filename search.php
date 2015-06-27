@@ -56,7 +56,8 @@
 ?>
 <br />
 <br />
-<h4> Min Year </h4>
+<h4> Year </h4>
+Min: 
 <?php 
 	// get the year data from the database
 	$years = array();
@@ -76,9 +77,7 @@
 	} 
 	echo'</select>';
 ?>
-<br />
-<br 
-<h4> Max Year </h4>
+Max: 
 <?php 
 	// get the year data from the database
 	$years = array();

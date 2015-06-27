@@ -1,12 +1,14 @@
 <?php
 
+
 // check valid number
 
-function checkisNum(int $val) {
-	$num = (int) $val;
-	if (preg_match('/^\d+$/', $num)
+function checkisNum($val) {
+	//$num = (int) $val
+	
+	if (preg_match('/^\d+$/', $val)
 		&&
-		strval(intval($num)) == strval($num)
+		strval(intval($val)) == strval($val)
 		) {
 		return true;
 	}
