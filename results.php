@@ -47,9 +47,7 @@ foreach ($res as $results)
 			echo '<td>' . $results["Stock"] . '</td>';
 			echo '</tr>';
 	 }
-// finish the session
-session_unset();
-session_destroy();
+
 
 ?>
 

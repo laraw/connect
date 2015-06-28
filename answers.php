@@ -5,7 +5,12 @@ require_once('./php/dataaccess.php');
 session_start();
 $db = createDBConnection();
 
+if(isset($_SESSION['results'])){
+	session_unset();
+	session_destroy();
+}
 
+	
 
 // get the variables from the Search & trim them 
 
@@ -31,8 +36,7 @@ foreach($_GET as $val) {
 	}
 
 if(!$data) {
-	$_SESSION['results'] = "You didn't search for anything!";
-	
+	$_SESSION['results'] = "You didn't search for anything!";	
 	header( 'Location: search.php' ) ;
 	exit;
 }
@@ -45,12 +49,14 @@ if(!$data) {
 	 $data = false;
 	 $_SESSION['results'] = "Not a valid number!";
 	 header( 'Location: results.php' ) ;
+	 exit;
  }
 
 if($searchMinYear > $searchMaxYear) {
 	$data = false;
 	$_SESSION['results'] = "Your minimum year is greater than your maximum!";
 	header( 'Location: results.php' ) ;
+	exit;
 }
 
 
