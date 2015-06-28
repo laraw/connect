@@ -139,16 +139,20 @@ $rowCount = 0;
 
 		 
 try {
-	$stmt = $db->query($query);
-	$res = $stmt->fetch(PDO::FETCH_ASSOC);
-	 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-					$rowCount++;
+	$stmt = $db->prepare($query);
+	$stmt->execute();
+	//res = $stmt->fetch(PDO::FETCH_ASSOC);
+	$rowCount = $stmt->rowCount();
+	$res = $stmt->fetchAll();
+	
+	 // while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+					// $rowCount++;
 					
-					printf("%-40s %-20s %-20s %-20s %-20s %-20s %-20s \n", $row["WineName"], $row["WineVarieties"], $row["Year"], $row["Stock"], 
-							$row["Cost"], $row["TotalSold"], $row["TotalSalesRevenue"]);
+					// printf("%-40s %-20s %-20s %-20s %-20s %-20s %-20s \n", $row["WineName"], $row["WineVarieties"], $row["Year"], $row["Stock"], 
+							// $row["Cost"], $row["TotalSold"], $row["TotalSalesRevenue"]);
 					
 					
-	}
+	// }
 	$_SESSION['queryRes'] = $res;
 }
 catch(PDOException $e) {
@@ -165,6 +169,6 @@ if($rowCount < 1 && $data) {
 	}
 
 
-//header( 'Location: results.php' ) ;
+header( 'Location: results.php' ) ;
 
 ?>
