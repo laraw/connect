@@ -33,17 +33,19 @@ foreach($_GET as $val) {
 if(!$data) {
 	$_SESSION['results'] = "You didn't search for anything!";
 	
-	header( 'Location: results.php' ) ;
+	header( 'Location: search.php' ) ;
+	exit;
 }
 	
 
 // validation checks -- check that number values are actual numbers 
-// if(!ctype_digit($searchMinStock) || !ctype_digit($searchMaxOrdered) || !ctype_digit($searchMinPrice) || !ctype_digit($searchMaxPrice))
-// {
-	// $data = false;
-	// $_SESSION['results'] = "Not a valid number!";
-	// header( 'Location: results.php' ) ;
-// }
+ if((!is_numeric($searchMinStock) && $searchMinStock <> '') || (!is_numeric($searchMaxOrdered) && $searchMaxOrdered <> '')
+	|| (!is_numeric($searchMinPrice) && $searchMinPrice <> '') || (!is_numeric($searchMaxPrice) && $searchMaxPrice <> ''))
+ {
+	 $data = false;
+	 $_SESSION['results'] = "Not a valid number!";
+	 header( 'Location: results.php' ) ;
+ }
 
 if($searchMinYear > $searchMaxYear) {
 	$data = false;
