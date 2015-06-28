@@ -58,7 +58,8 @@ if($searchMinYear > $searchMaxYear) {
 
 $query = "select  GROUP_CONCAT(DISTINCT(gr.variety)) as WineVarieties, w.wine_name as WineName,  
 		 w.year as Year, i.cost as Cost, i.on_hand as Stock, win.winery_name as Winery, wts.totalSold as TotalSold, 
-		 wtsr.TotalSalesRevenue as TotalSalesRevenue
+		 wtsr.TotalSalesRevenue as TotalSalesRevenue, 
+		 reg.region_name as RegionName
 		 from wine w
 		 inner join wine_variety wv on w.wine_id = wv.wine_id
 		 inner join grape_variety gr on wv.variety_id = gr.variety_id
@@ -130,7 +131,7 @@ if($searchMaxPrice <> "") {
 
 
 // complete the query
-$query = $query . " group by  w.wine_name,  w.year, i.cost, i.on_hand, win.winery_name, wts.totalSold, wtsr.TotalSalesRevenue;";
+$query = $query . " group by  w.wine_name,  w.year, i.cost, i.on_hand, win.winery_name, wts.totalSold, wtsr.TotalSalesRevenue, reg.region_name;";
 
 
 
@@ -141,21 +142,13 @@ $rowCount = 0;
 
 		 
 try {
-	$stmt = $db->prepare($query);
-	$stmt->execute();
-	//res = $stmt->fetch(PDO::FETCH_ASSOC);
-	$rowCount = $stmt->rowCount();
-	$res = $stmt->fetchAll();
-	
-	 // while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-					// $rowCount++;
-					
-					// printf("%-40s %-20s %-20s %-20s %-20s %-20s %-20s \n", $row["WineName"], $row["WineVarieties"], $row["Year"], $row["Stock"], 
-							// $row["Cost"], $row["TotalSold"], $row["TotalSalesRevenue"]);
-					
-					
-	// }
-	$_SESSION['queryRes'] = $res;
+		$stmt = $db->prepare($query);
+		$stmt->execute();
+		$rowCount = $stmt->rowCount();
+		$res = $stmt->fetchAll();	
+		$_SESSION['queryRes'] = $res;
+	}
+		
 }
 catch(PDOException $e) {
 	echo $e->getMessage();
