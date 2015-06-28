@@ -59,7 +59,7 @@ if($searchMinYear > $searchMaxYear) {
 $query = "select  GROUP_CONCAT(DISTINCT(gr.variety)) as WineVarieties, w.wine_name as WineName,  
 		 w.year as Year, i.cost as Cost, i.on_hand as Stock, win.winery_name as Winery, wts.totalSold as TotalSold, 
 		 wtsr.TotalSalesRevenue as TotalSalesRevenue, 
-		 reg.region_name as RegionName
+		 reg.region_name as Region
 		 from wine w
 		 inner join wine_variety wv on w.wine_id = wv.wine_id
 		 inner join grape_variety gr on wv.variety_id = gr.variety_id
@@ -146,10 +146,10 @@ try {
 		$stmt->execute();
 		$rowCount = $stmt->rowCount();
 		$res = $stmt->fetchAll();	
+		$_SESSION['rowCount'] = $rowCount;
 		$_SESSION['queryRes'] = $res;
-	}
-		
 }
+		
 catch(PDOException $e) {
 	echo $e->getMessage();
 }
