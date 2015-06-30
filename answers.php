@@ -5,11 +5,16 @@ require_once('./php/dataaccess.php');
 session_start();
 $db = createDBConnection();
 
-if(isset($_SESSION['results'])){
-	session_unset();
-	session_destroy();
+
+// if there are any search results from a previous session, clear them out
+
+if(isset($_SESSION['queryRes'])){
+	session_unset($_SESSION['queryRes']);
 }
 
+if(isset($_SESSION['error'])) {
+	session_unset($_SESSION['error']);
+}
 	
 
 // get the variables from the Search & trim them 
@@ -36,9 +41,7 @@ foreach($_GET as $val) {
 	}
 
 if(!$data) {
-	$_SESSION['results'] = "You didn't search for anything!";	
-	header( 'Location: search.php' ) ;
-	exit;
+	$errorMsg = "You didn't search for anything!";	
 }
 	
 
@@ -47,18 +50,23 @@ if(!$data) {
 	|| (!is_numeric($searchMinPrice) && $searchMinPrice <> '') || (!is_numeric($searchMaxPrice) && $searchMaxPrice <> ''))
  {
 	 $data = false;
-	 $_SESSION['results'] = "Not a valid number!";
-	 header( 'Location: results.php' ) ;
-	 exit;
+	 $errorMsg = "Not a valid number!";
+	 
  }
 
 if($searchMinYear > $searchMaxYear) {
 	$data = false;
-	$_SESSION['results'] = "Your minimum year is greater than your maximum!";
-	header( 'Location: results.php' ) ;
-	exit;
+	$errorMsg = "Your minimum year is greater than your maximum!";
+	
 }
 
+// return to the previous page with error message 
+
+if(!$data) {
+	$_SESSION['error'] = $errorMsg;
+	header( 'Location: search.php' ) ;
+	exit;
+}
 
 // the actual query
 

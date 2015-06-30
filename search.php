@@ -4,7 +4,17 @@
 </head>
 <body>
 <h1> Winestore search </h1>
-<p> Please select your search parameters: </p>
+<?php
+session_start();
+if(isset($_SESSION['error'])) {
+	echo '<p><b>' . $_SESSION['error'] . '</p></b>';
+}
+
+else {
+	echo '<p> Please select your search parameters: </p>';
+}
+
+?>
 <form action="answers.php" method="GET">
 <h4> Wine Name: </h4>
 <input type="text" id="wineName" name="wineName">
@@ -19,6 +29,7 @@
 	// get the region data from the database
 	
 	include_once('./php/dataaccess.php');
+	
 	$db = createDBConnection();
 	
 	$regions = getRegions($db);
@@ -95,6 +106,8 @@ Max:
 	 echo '<option value="' . $year . '">' . $year . '</option>';
 	} 
 	echo'</select>';
+	
+	
 ?>
 <br />
 <br />
