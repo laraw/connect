@@ -31,7 +31,10 @@ $searchMinOrdered = addslashes(trim($_GET['minOrdered']));
 $searchMinPrice = addslashes(trim($_GET['minPrice']));
 $searchMaxPrice = addslashes(trim($_GET['maxPrice']));
 
-// check to see if anything has been searched for
+
+// VALIDATION CHECKS 
+
+// First check to see if anything has been searched for
 $data = false;
 
 foreach($_GET as $val) {
@@ -45,7 +48,7 @@ if(!$data) {
 }
 	
 
-// validation checks -- check that number values are actual numbers 
+// Also check that number values are actual numbers 
  if((!is_numeric($searchMinStock) && $searchMinStock <> '') || (!is_numeric($searchMaxOrdered) && $searchMaxOrdered <> '')
 	|| (!is_numeric($searchMinPrice) && $searchMinPrice <> '') || (!is_numeric($searchMaxPrice) && $searchMaxPrice <> ''))
  {
@@ -60,7 +63,14 @@ if($searchMinYear > $searchMaxYear) {
 	
 }
 
-// return to the previous page with error message 
+// check the data length matches the length in the database see http://php.net/manual/en/intro.filter.php
+
+
+// check for ascii code
+
+
+
+// If the validation check fails ... return to the previous page with error message 
 
 if(!$data) {
 	$_SESSION['error'] = $errorMsg;
@@ -170,7 +180,7 @@ catch(PDOException $e) {
 
 
 if($rowCount >= 1 && $data) {
-		$_SESSION['results'] = 'Here are the results that match your criteria: ';
+		$_SESSION['results'] = 'There were ' . $rowCount  . ' results that match your criteria: ';
 	}
 	
 if($rowCount < 1 && $data) {
