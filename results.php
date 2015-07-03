@@ -9,7 +9,7 @@
 session_start();
 
 if (isset($_SESSION['results'])) {
-  echo '<p>' . $_SESSION['results'] . '</p>';
+    echo '<p>' . $_SESSION['results'] . '</p>';
 }
 
 
@@ -33,20 +33,19 @@ if (isset($_SESSION['results'])) {
 $res = $_SESSION['queryRes'];
 
 
-foreach ($res as $results) 
-	 {		
-			echo '<tr>';
-			echo '<td>' . $results["WineName"] . '</td>';
-			echo '<td>' . $results["WineVarieties"] . '</td>';
-			echo '<td>' . $results["Year"] . '</td>';			
-			echo '<td>' . $results["Winery"] . '</td>';
-			echo '<td>' . $results["Region"] . '</td>';
-			echo '<td>' . $results["Cost"] . '</td>';
-			echo '<td>' . $results["TotalSold"] . '</td>';
-			echo '<td>' . $results["TotalSalesRevenue"] . '</td>';		
-			echo '<td>' . $results["Stock"] . '</td>';
-			echo '</tr>';
-	 }
+foreach ($res as $results) {
+    echo '<tr>';
+    echo '<td>' . $results["WineName"] . '</td>';
+    echo '<td>' . $results["WineVarieties"] . '</td>';
+    echo '<td>' . $results["Year"] . '</td>';
+    echo '<td>' . $results["Winery"] . '</td>';
+    echo '<td>' . $results["Region"] . '</td>';
+    echo '<td>' . $results["Cost"] . '</td>';
+    echo '<td>' . $results["TotalSold"] . '</td>';
+    echo '<td>' . $results["TotalSalesRevenue"] . '</td>';
+    echo '<td>' . $results["Stock"] . '</td>';
+    echo '</tr>';
+}
 
 
 ?>

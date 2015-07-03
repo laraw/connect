@@ -6,12 +6,12 @@
 <h1> Winestore search </h1>
 <?php
 session_start();
-if(isset($_SESSION['error'])) {
-	echo '<p><b>' . $_SESSION['error'] . '</p></b>';
+if (isset($_SESSION['error'])) {
+    echo '<p><b>' . $_SESSION['error'] . '</p></b>';
 }
 
 else {
-	echo '<p> Please select your search parameters: </p>';
+    echo '<p> Please select your search parameters: </p>';
 }
 
 ?>
@@ -25,89 +25,89 @@ else {
 <br />
 <br />
 <h4> Region </h4>
-<?php 
-	// get the region data from the database
-	
-	include_once('./php/dataaccess.php');
-	
-	$db = createDBConnection();
-	
-	$regions = getRegions($db);
-	
-		 
-	echo '<select id="region" name="region"> <option value=""> </option>'; 
-	 
-	/* Populate the region list */
-	foreach($regions as $region){ 
-	 echo '<option value="' . $region . '">' . $region . '</option>';
-	} 
-	echo'</select>';
+<?php
+// get the region data from the database
+
+include_once('./php/dataaccess.php');
+
+$db = createDBConnection();
+
+$regions = getRegions($db);
+
+
+echo '<select id="region" name="region"> <option value=""> </option>';
+
+/* Populate the region list */
+foreach ($regions as $region) {
+    echo '<option value="' . $region . '">' . $region . '</option>';
+}
+echo '</select>';
 ?>
 
 <br />
 <br />
 <h4> Grape Variety </h4>
-<?php 
-	// get the grape variety data from the database
-	
-	include_once('./php/dataaccess.php');
-	$db = createDBConnection();
-	
-	$varieties = getVariety($db);
-	
-		 
-	echo '<select id="variety" name="variety">'; 
-	echo '<option value=""> </option>';
-	/* Populate the grape variety list */
-	foreach($varieties as $variety){ 
-	 echo '<option value="' . $variety . '">' . $variety . '</option>';
-	} 
-	
-	echo'</select>';
+<?php
+// get the grape variety data from the database
+
+include_once('./php/dataaccess.php');
+$db = createDBConnection();
+
+$varieties = getVariety($db);
+
+
+echo '<select id="variety" name="variety">';
+echo '<option value=""> </option>';
+/* Populate the grape variety list */
+foreach ($varieties as $variety) {
+    echo '<option value="' . $variety . '">' . $variety . '</option>';
+}
+
+echo '</select>';
 ?>
 <br />
 <br />
 <h4> Year </h4>
 Min: 
-<?php 
-	// get the year data from the database
-	$years = array();
-	
-	include_once('./php/dataaccess.php');
-	$db = createDBConnection();
-	
-	$years = getYearRange($db);
-	
-		 
-	echo '<select id="minyear" name="minyear">'; 
-	echo '<option value=""> </option>';
-	 
-	/* Populate the region list */
-	foreach($years as $year){ 
-	 echo '<option value="' . $year . '">' . $year . '</option>';
-	} 
-	echo'</select>';
+<?php
+// get the year data from the database
+$years = array();
+
+include_once('./php/dataaccess.php');
+$db = createDBConnection();
+
+$years = getYearRange($db);
+
+
+echo '<select id="minyear" name="minyear">';
+echo '<option value=""> </option>';
+
+/* Populate the region list */
+foreach ($years as $year) {
+    echo '<option value="' . $year . '">' . $year . '</option>';
+}
+echo '</select>';
 ?>
 Max: 
-<?php 
-	// get the year data from the database
-	$years = array();
-	
-	include_once('./php/dataaccess.php');
-	$db = createDBConnection();
-	
-	$years = getYearRange($db);
-	
-	echo '<select id="maxyear" name="maxyear">'; 
-	echo '<option value=""> </option>';
-	 
-	/* Populate the region list */
-	foreach($years as $year){ 
-	 echo '<option value="' . $year . '">' . $year . '</option>';
-	} 
-	echo'</select>';
-	
-	
+<?php
+// get the year data from the database
+$years = array();
+
+include_once('./php/dataaccess.php');
+$db = createDBConnection();
+
+$years = getYearRange($db);
+
+echo '<select id="maxyear" name="maxyear">';
+echo '<option value=""> </option>';
+
+/* Populate the region list */
+foreach ($years as $year) {
+    echo '<option value="' . $year . '">' . $year . '</option>';
+}
+echo '</select>';
+
+
 ?>
 <br />
 <br />

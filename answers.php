@@ -3,33 +3,34 @@ require_once('./php/dataaccess.php');
 //require_once('./php/helper.php');
 
 session_start();
+
 $db = createDBConnection();
 
 
 // if there are any search results from a previous session, clear them out
 
-if(isset($_SESSION['queryRes'])){
-	session_unset($_SESSION['queryRes']);
+if (isset($_SESSION['queryRes'])) {
+    session_unset($_SESSION['queryRes']);
 }
 
-if(isset($_SESSION['error'])) {
-	session_unset($_SESSION['error']);
+if (isset($_SESSION['error'])) {
+    session_unset($_SESSION['error']);
 }
-	
+
 
 // get the variables from the Search & trim them 
 
 
-$searchWine = addslashes(trim($_GET['wineName'])); // wine name
-$searchWinery = addslashes(trim($_GET['winery']));
-$searchRegion = addslashes(trim($_GET['region']));
-$searchVariety = addslashes(trim($_GET['variety']));
-$searchMinYear = addslashes(trim($_GET['minyear']));
-$searchMaxYear = addslashes(trim($_GET['maxyear']));
-$searchMinStock = addslashes(trim($_GET['minStock']));
+$searchWine       = addslashes(trim($_GET['wineName'])); // wine name
+$searchWinery     = addslashes(trim($_GET['winery']));
+$searchRegion     = addslashes(trim($_GET['region']));
+$searchVariety    = addslashes(trim($_GET['variety']));
+$searchMinYear    = addslashes(trim($_GET['minyear']));
+$searchMaxYear    = addslashes(trim($_GET['maxyear']));
+$searchMinStock   = addslashes(trim($_GET['minStock']));
 $searchMinOrdered = addslashes(trim($_GET['minOrdered']));
-$searchMinPrice = addslashes(trim($_GET['minPrice']));
-$searchMaxPrice = addslashes(trim($_GET['maxPrice']));
+$searchMinPrice   = addslashes(trim($_GET['minPrice']));
+$searchMaxPrice   = addslashes(trim($_GET['maxPrice']));
 
 
 // VALIDATION CHECKS 
@@ -37,45 +38,53 @@ $searchMaxPrice = addslashes(trim($_GET['maxPrice']));
 // First check to see if anything has been searched for
 $data = false;
 
-foreach($_GET as $val) {
-		if(strlen($val) > 0 && $val <> 'Submit') {
-			$data = true;
-		}
-	}
-
-if(!$data) {
-	$errorMsg = "You didn't search for anything!";	
+foreach ($_GET as $val) {
+    if (strlen($val) > 0 && $val <> 'Submit') {
+        $data = true;
+    }
 }
-	
+
+if (!$data) {
+    $errorMsg = "You didn't search for anything!";
+}
+
 
 // Also check that number values are actual numbers 
- if((!is_numeric($searchMinStock) && $searchMinStock <> '') || (!is_numeric($searchMaxOrdered) && $searchMaxOrdered <> '')
-	|| (!is_numeric($searchMinPrice) && $searchMinPrice <> '') || (!is_numeric($searchMaxPrice) && $searchMaxPrice <> ''))
- {
-	 $data = false;
-	 $errorMsg = "Not a valid number!";
-	 
- }
-
-if($searchMinYear > $searchMaxYear) {
-	$data = false;
-	$errorMsg = "Your minimum year is greater than your maximum!";
-	
+if ((!is_numeric($searchMinStock) && $searchMinStock <> '') || (!is_numeric($searchMaxOrdered) && $searchMaxOrdered <> '') || (!is_numeric($searchMinPrice) && $searchMinPrice <> '') || (!is_numeric($searchMaxPrice) && $searchMaxPrice <> '')) {
+    $data     = false;
+    $errorMsg = "Not a valid number!";
+    
 }
 
-// check the data length matches the length in the database see http://php.net/manual/en/intro.filter.php
+
+if ($searchMinYear > $searchMaxYear) {
+    $data     = false;
+    $errorMsg = "Your minimum year is greater than your maximum!";
+    
+}
+
+// length of string and data types
+
+// check the data type & length matches the length in the database see
+/* 
+if ((!ereg("^([0-9])$", $searchMinStock) && $searchMinStock <> '') || (!ereg("^([0-9])$", $searchMaxOrdered) && $searchMaxOrdered <> '') 
+|| (!ereg("^([0-9])$", $searchMaxPrice) && $searchMaxPrice <> '') || (!ereg("^([0-9])$", $searchMinPrice) && $searchMinPrice <> '')) {
+$data = false;
+$errorMsg = "Not a valid number!";
+}
+*/
 
 
-// check for ascii code
+// check for ascii code or malicious code
 
 
 
 // If the validation check fails ... return to the previous page with error message 
 
-if(!$data) {
-	$_SESSION['error'] = $errorMsg;
-	header( 'Location: search.php' ) ;
-	exit;
+if (!$data) {
+    $_SESSION['error'] = $errorMsg;
+    header('Location: search.php');
+    exit;
 }
 
 // the actual query
@@ -97,58 +106,58 @@ $query = "select  GROUP_CONCAT(DISTINCT(gr.variety)) as WineVarieties, w.wine_na
 								  from items
 								  group by wine_id) as wtsr on wtsr.wine_id = w.wine_id 
 		  where 1 = 1";
- 
+
 
 // set the rowcount 
 
 $rowCount = 1;
-$result = '';
+$result   = '';
 
 // build the query based on the parameters
 
 
-if($searchWine <> "") {
-	$query = $query . " and w.wine_name like " . "'%" . $searchWine . "%'";
+if ($searchWine <> "") {
+    $query = $query . " and w.wine_name like " . "'%" . $searchWine . "%'";
 }
 
 
-if($searchWinery <> "") {
-	$query = $query . " and win.winery_name like " . "'%" . $searchWinery . "%'";
+if ($searchWinery <> "") {
+    $query = $query . " and win.winery_name like " . "'%" . $searchWinery . "%'";
 }
 
-if($searchRegion <> "") {
-	$query = $query . " and reg.region_name like " . "'%" . $searchRegion . "%'";
+if ($searchRegion <> "") {
+    $query = $query . " and reg.region_name like " . "'%" . $searchRegion . "%'";
 }
 
-if($searchVariety <> "") {
-	$query = $query . " and gr.variety like " . "'%" . $searchVariety . "%'";
+if ($searchVariety <> "") {
+    $query = $query . " and gr.variety like " . "'%" . $searchVariety . "%'";
 }
 
-if($searchMinYear <> "") {
-	$query = $query . " and w.year >= " . "'" . $searchMinYear . "'";
+if ($searchMinYear <> "") {
+    $query = $query . " and w.year >= " . "'" . $searchMinYear . "'";
 }
 
-if($searchMaxYear <> "") {
-	$query = $query . " and w.year <= " . "'" . $searchMaxYear . "'";
-}
-
-
-if($searchMinOrdered <> "") {
-	$query = $query . " and totalSold >= " . $searchMinOrdered;
+if ($searchMaxYear <> "") {
+    $query = $query . " and w.year <= " . "'" . $searchMaxYear . "'";
 }
 
 
-if($searchMinStock <> "") {
-	$query = $query . " and i.on_hand >= " . $searchMinStock;
+if ($searchMinOrdered <> "") {
+    $query = $query . " and totalSold >= " . $searchMinOrdered;
 }
 
 
-if($searchMinPrice <> "") {
-	$query = $query . " and i.cost >= " . $searchMinPrice;
+if ($searchMinStock <> "") {
+    $query = $query . " and i.on_hand >= " . $searchMinStock;
 }
 
-if($searchMaxPrice <> "") {
-	$query = $query . " and i.cost <= " . $searchMaxPrice;
+
+if ($searchMinPrice <> "") {
+    $query = $query . " and i.cost >= " . $searchMinPrice;
+}
+
+if ($searchMaxPrice <> "") {
+    $query = $query . " and i.cost <= " . $searchMaxPrice;
 }
 
 
@@ -164,30 +173,30 @@ $rowCount = 0;
 
 // store the query in a session object
 
-		 
+
 try {
-		$stmt = $db->prepare($query);
-		$stmt->execute();
-		$rowCount = $stmt->rowCount();
-		$res = $stmt->fetchAll();	
-		$_SESSION['rowCount'] = $rowCount;
-		$_SESSION['queryRes'] = $res;
-}
-		
-catch(PDOException $e) {
-	echo $e->getMessage();
+    $stmt = $db->prepare($query);
+    $stmt->execute();
+    $rowCount             = $stmt->rowCount();
+    $res                  = $stmt->fetchAll();
+    $_SESSION['rowCount'] = $rowCount;
+    $_SESSION['queryRes'] = $res;
 }
 
-
-if($rowCount >= 1 && $data) {
-		$_SESSION['results'] = 'There were ' . $rowCount  . ' results that match your criteria: ';
-	}
-	
-if($rowCount < 1 && $data) {
-		$_SESSION['results'] = 'Sorry there were no results matching your criteria!';
-	}
+catch (PDOException $e) {
+    echo $e->getMessage();
+}
 
 
-header( 'Location: results.php' ) ;
+if ($rowCount >= 1 && $data) {
+    $_SESSION['results'] = 'There were ' . $rowCount . ' results that match your criteria: ';
+}
+
+if ($rowCount < 1 && $data) {
+    $_SESSION['results'] = 'Sorry there were no results matching your criteria!';
+}
+
+
+header('Location: results.php');
 
 ?>
