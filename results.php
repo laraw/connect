@@ -35,15 +35,15 @@ $res = $_SESSION['queryRes'];
 
 foreach ($res as $results) {
     echo '<tr>';
-    echo '<td>' . htmlentities($results["WineName"]) . '</td>';
-    echo '<td>' . htmlentities($results["WineVarieties"]) . '</td>';
-    echo '<td>' . htmlentities($results["Year"]) . '</td>';
-    echo '<td>' . htmlentities($results["Winery"]) . '</td>';
-    echo '<td>' . htmlentities($results["Region"]) . '</td>';
-    echo '<td>$' . htmlentities($results["Cost"]) . '</td>';
-    echo '<td>' . htmlentities($results["TotalSold"]) . '</td>';
-    echo '<td>$' . htmlentities($results["TotalSalesRevenue"]) . '</td>';
-    echo '<td>' . htmlentities($results["Stock"]) . '</td>';
+    echo '<td>' . htmlspecialchars($results["WineName"]) . '</td>';
+    echo '<td>' . htmlspecialchars($results["WineVarieties"]) . '</td>';
+    echo '<td>' . htmlspecialchars($results["Year"]) . '</td>';
+    echo '<td>' . htmlspecialchars($results["Winery"]) . '</td>';
+    echo '<td>' . htmlspecialchars($results["Region"]) . '</td>';
+    echo '<td>$' . htmlspecialchars($results["Cost"]) . '</td>';
+    echo '<td>' . htmlspecialchars($results["TotalSold"]) . '</td>';
+    echo '<td>$' . htmlspecialchars($results["TotalSalesRevenue"]) . '</td>';
+    echo '<td>' . htmlspecialchars($results["Stock"]) . '</td>';
     echo '</tr>';
 }
 
