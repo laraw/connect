@@ -40,9 +40,9 @@ foreach ($res as $results) {
     echo '<td>' . $results["Year"] . '</td>';
     echo '<td>' . $results["Winery"] . '</td>';
     echo '<td>' . $results["Region"] . '</td>';
-    echo '<td>' . $results["Cost"] . '</td>';
+    echo '<td>$' . $results["Cost"] . '</td>';
     echo '<td>' . $results["TotalSold"] . '</td>';
-    echo '<td>' . $results["TotalSalesRevenue"] . '</td>';
+    echo '<td>$' . $results["TotalSalesRevenue"] . '</td>';
     echo '<td>' . $results["Stock"] . '</td>';
     echo '</tr>';
 }

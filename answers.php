@@ -21,7 +21,7 @@ if (isset($_SESSION['error'])) {
 // get the variables from the Search & trim them 
 
 
-$searchWine       = addslashes(trim($_GET['wineName'])); // wine name
+$searchWine       = addslashes(trim($_GET['wineName'])); 
 $searchWinery     = addslashes(trim($_GET['winery']));
 $searchRegion     = addslashes(trim($_GET['region']));
 $searchVariety    = addslashes(trim($_GET['variety']));
@@ -33,7 +33,7 @@ $searchMinPrice   = addslashes(trim($_GET['minPrice']));
 $searchMaxPrice   = addslashes(trim($_GET['maxPrice']));
 
 
-// VALIDATION CHECKS 
+/* VALIDATION CHECKS */
 
 // First check to see if anything has been searched for
 $data = false;
@@ -49,13 +49,15 @@ if (!$data) {
 }
 
 
-// Also check that number values are actual numbers 
+// Also check that number searches are actually numeric 
 if ((!is_numeric($searchMinStock) && $searchMinStock <> '') || (!is_numeric($searchMaxOrdered) && $searchMaxOrdered <> '') || (!is_numeric($searchMinPrice) && $searchMinPrice <> '') || (!is_numeric($searchMaxPrice) && $searchMaxPrice <> '')) {
     $data     = false;
     $errorMsg = "Not a valid number!";
     
 }
 
+
+// make sure the minimum year isn't greater than the maximum year
 
 if ($searchMinYear > $searchMaxYear) {
     $data     = false;
@@ -90,8 +92,8 @@ if (!$data) {
 // the actual query
 
 $query = "select  GROUP_CONCAT(DISTINCT(gr.variety)) as WineVarieties, w.wine_name as WineName,  
-		 w.year as Year, i.cost as Cost, i.on_hand as Stock, win.winery_name as Winery, wts.totalSold as TotalSold, 
-		 wtsr.TotalSalesRevenue as TotalSalesRevenue, 
+		 w.year as Year, min(i.cost) as Cost, i.on_hand as Stock, win.winery_name as Winery, coalesce(TotalSold,0.00) as TotalSold, 
+		  coalesce(TotalSalesRevenue,0.00) as TotalSalesRevenue, 
 		 reg.region_name as Region
 		 from wine w
 		 inner join wine_variety wv on w.wine_id = wv.wine_id
@@ -99,12 +101,9 @@ $query = "select  GROUP_CONCAT(DISTINCT(gr.variety)) as WineVarieties, w.wine_na
 		 inner join inventory i on w.wine_id = i.wine_id
 		 inner join winery win on w.winery_id = win.winery_id
 		 inner join region reg on reg.region_id = win.region_id
-		 inner join (select sum(qty) as totalSold, wine_id 
+		 left join (select sum(qty) as totalSold,sum(price) as TotalSalesRevenue, wine_id 
 								  from items
 								 group by wine_id) as wts on wts.wine_id = w.wine_id
-		 inner join (select wine_id, sum(price) as TotalSalesRevenue
-								  from items
-								  group by wine_id) as wtsr on wtsr.wine_id = w.wine_id 
 		  where 1 = 1";
 
 
@@ -164,7 +163,7 @@ if ($searchMaxPrice <> "") {
 
 
 // complete the query
-$query = $query . " group by  w.wine_name,  w.year, i.cost, i.on_hand, win.winery_name, wts.totalSold, wtsr.TotalSalesRevenue, reg.region_name;";
+$query = $query . " group by  w.wine_id;";
 
 
 
