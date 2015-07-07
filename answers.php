@@ -33,11 +33,28 @@ $searchMinPrice   = addslashes(trim($_GET['minPrice']));
 $searchMaxPrice   = addslashes(trim($_GET['maxPrice']));
 
 
+
 /* VALIDATION CHECKS */
+/*
+1. Make sure something has been searched for
+2. Wine name should be a string max 50
+3. Winery name should be string max 100
+4. Region should be string max 100 
+5. Variety should be string max 50
+6. Min/Max Year min must be less than max, year is int max 4
+7. Min/Max Stock int 5 - min must be less than max
+8. Min/Max Price decimal (5,2) - min must be less than max
 
-// First check to see if anything has been searched for
-$data = false;
+User should be returned to search page with the error field highlighted for correction. No results should appear until all errors fixed.
 
+*/
+
+// create an array with all the fields in it
+$errors = array();
+
+$data = true;
+
+/*removed as per the forum
 foreach ($_GET as $val) {
     if (strlen($val) > 0 && $val <> 'Submit') {
         $data = true;
@@ -47,6 +64,8 @@ foreach ($_GET as $val) {
 if (!$data) {
     $errorMsg = "You didn't search for anything!";
 }
+*/
+
 
 
 // Also check that number searches are actually numeric 
@@ -67,6 +86,10 @@ if ($searchMinYear > $searchMaxYear) {
 
 // length of string and data types
 
+
+
+// check for ascii code or malicious code
+
 // check the data type & length matches the length in the database see
 /* 
 if ((!ereg("^([0-9])$", $searchMinStock) && $searchMinStock <> '') || (!ereg("^([0-9])$", $searchMaxOrdered) && $searchMaxOrdered <> '') 
@@ -77,7 +100,6 @@ $errorMsg = "Not a valid number!";
 */
 
 
-// check for ascii code or malicious code
 
 
 
@@ -89,7 +111,9 @@ if (!$data) {
     exit;
 }
 
-// the actual query
+
+/* BUILD SEARCH QUERY */
+
 
 $query = "select  GROUP_CONCAT(DISTINCT(gr.variety)) as WineVarieties, w.wine_name as WineName,  
 		 w.year as Year, min(i.cost) as Cost, i.on_hand as Stock, win.winery_name as Winery, coalesce(TotalSold,0.00) as TotalSold, 
@@ -124,7 +148,7 @@ if ($searchWinery <> "") {
     $query = $query . " and win.winery_name like " . "'%" . $searchWinery . "%'";
 }
 
-if ($searchRegion <> "") {
+if ($searchRegion <> "" and $searchRegion <> "All") {
     $query = $query . " and reg.region_name like " . "'%" . $searchRegion . "%'";
 }
 
@@ -195,7 +219,8 @@ if ($rowCount < 1 && $data) {
     $_SESSION['results'] = 'Sorry there were no results matching your criteria!';
 }
 
+$sessID = session_id();
 
-header('Location: results.php');
+header('Location: results.php?PHPSESSID=' . $sessID);
 
 ?>
