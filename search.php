@@ -137,9 +137,9 @@ if (isset($_SESSION['error'])) {
  unset($_SESSION['error']);
 }
 ?>
-Min:
+Min $:
 <input type="text" id="minPrice" name="minPrice" size="10">
-Max:
+Max $:
 <input type="text" id="maxPrice" name="maxPrice" size="10">
 <br />
 <br />

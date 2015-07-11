@@ -43,7 +43,7 @@ if(strlen($searchWine) > 50) {
 	$errors['winename'] = "Wine name is too long - max 50 characters";
 	$data = false;
 }
-elseif ( preg_match("/[^a-z0-9 ]/i", $searchWine) ) {
+elseif ( preg_match("/[^a-z0-9' ]/i+", $searchWine) ) {
 	$errors['winename'] = "Wine name contains invalid characters - alphanumeric only";
 	$data = false;
 }
@@ -53,7 +53,7 @@ if(strlen($searchWinery) > 100) {
 	$errors['wineryname'] = "Winery name is too long - max 50 characters";
 	$data = false;
 }
-elseif ( preg_match("/[^a-z0-9 ]/i", $searchWinery) ) {
+elseif ( preg_match("/[^a-z0-9' ]/i+", $searchWinery) ) {
 	$errors['wineryname'] = "Winery name contains invalid characters - alphanumeric only";
 	$data = false;
 }
@@ -95,13 +95,16 @@ elseif($searchMinOrdered < 0 ) {
 // Min/Max Price decimal (5,2) - min must be less than max		
 $priceErr = array();
 $priceData = true;
-if((preg_match("/\A(?!\d{1,5}(?:\.\d{1,2})?\z).*/", $searchMinPrice)) && $searchMinPrice <> '') {
+if((preg_match("/\A(?!\d{1,5}(\.\d{1,2})?\z)(.*)/", $searchMinPrice)) && $searchMinPrice <> '') {
 	$priceErr[] = "Min Price invalid format";
 	$priceData = false;
 }
-if((preg_match("/\A(?!\d{1,5}(?:\.\d{1,2})?\z).*/", $searchMaxPrice)) && $searchMaxPrice <> '') {
+if((preg_match("/\A(?!\d{1,5}(\.\d{1,2})?\z)(.*)/", $searchMaxPrice)) && $searchMaxPrice <> '') {
 	$priceErr[] = "Max Price invalid format";
 	$priceData = false;
+}
+if(!$priceData) {
+	$priceErr[] = "eg 0.01-99999.99 </br>";
 }
 if($searchMinPrice <> '' && $searchMaxPrice <> '') {
 	if($priceData && $searchMinPrice >= $searchMaxPrice ) {
