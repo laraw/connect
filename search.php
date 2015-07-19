@@ -57,7 +57,7 @@ echo '</select>';
 <?php
 // get the grape variety data from the database
 include_once('./php/dataaccess.php');
-$db = createDBConnection();
+
 $varieties = getVariety($db);
 echo '<select id="variety" name="variety">';
 echo '<option value=""> </option>';
@@ -81,7 +81,7 @@ Min:
 // get the year data from the database
 $years = array();
 include_once('./php/dataaccess.php');
-$db = createDBConnection();
+
 $years = getYearRange($db);
 echo '<select id="minyear" name="minyear">';
 echo '<option value=""> </option>';
@@ -97,7 +97,7 @@ Max:
 // get the year data from the database
 $years = array();
 include_once('./php/dataaccess.php');
-$db = createDBConnection();
+
 $years = getYearRange($db);
 echo '<select id="maxyear" name="maxyear">';
 echo '<option value=""> </option>';

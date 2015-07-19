@@ -1,38 +1,39 @@
-* 4d79710 : tempalting done
-* b0e56fa : fixes to regex
-* 2d7ae26 : removefile
-* 4bd54ab : added all data validation
-* 5efc141 : fixes to query
-* e25e2b0 : changes html entities to html special chars
-* fc8a4c9 : data validation
-* e7c55ad : updated query
-* 7916bb9 : prettify
-* 81ff6d3 : comments
-* 6e65de0 : added more data validation
-* b81c95b : fixes to session issue
-* 5102415 : added more columns to search results
-* 27b58c0 : removed testPdo
-* 352841d : changes to session
-* ac155a5 : working version of website
-* a859dc4 : finalised search results page
-* 9066fb3 : fixes
-* 8c32c4f : fix to years
-* ecd2922 : fixes to answers
-* 17e20ed : finalised answers page
-* 82b1e26 : fixes to sql query
-* 6d45b10 : fixes to sql query
-* 4820ea7 : more updates to answersphp
-* 4ffadfa : added data validation for empty search
-* 367a944 : added results, search and answers php files
-* 39c3fa4 : updates to search and dataaccess files
-* 2881a94 : created search php page and set up test pdo connection
-* 305a66b : test database connection
-* b4b1896 : removed files created for test purposes
-* bdc9338 : added mini templator
-* a2462a7 : more
-* f42aa21 : add my file
-* 3cfed21 : new files
-* 21e9d39 : done
-* e3506ae : first commit
-* 9bb66ae : first commit
-* 7f7d0b0 : added test connection connect.php
+2202d92 was Lara, 6 minutes ago, message: edits
+4d79710 was Lara, 22 minutes ago, message: tempalting done
+b0e56fa was Lara, 8 days ago, message: fixes to regex
+2d7ae26 was Lara, 8 days ago, message: removefile
+4bd54ab was Lara, 8 days ago, message: added all data validation
+5efc141 was Lara, 12 days ago, message: fixes to query
+e25e2b0 was Lara, 2 weeks ago, message: changes html entities to html special chars
+fc8a4c9 was Lara, 2 weeks ago, message: data validation
+e7c55ad was Lara, 2 weeks ago, message: updated query
+7916bb9 was Lara, 2 weeks ago, message: prettify
+81ff6d3 was Lara, 3 weeks ago, message: comments
+6e65de0 was Lara, 3 weeks ago, message: added more data validation
+b81c95b was Lara, 3 weeks ago, message: fixes to session issue
+5102415 was Lara, 3 weeks ago, message: added more columns to search results
+27b58c0 was Lara, 3 weeks ago, message: removed testPdo
+352841d was Lara, 3 weeks ago, message: changes to session
+ac155a5 was Lara, 3 weeks ago, message: working version of website
+a859dc4 was Lara, 3 weeks ago, message: finalised search results page
+9066fb3 was Lara, 3 weeks ago, message: fixes
+8c32c4f was Lara, 3 weeks ago, message: fix to years
+ecd2922 was Lara, 3 weeks ago, message: fixes to answers
+17e20ed was Lara, 3 weeks ago, message: finalised answers page
+82b1e26 was Lara, 3 weeks ago, message: fixes to sql query
+6d45b10 was Lara, 3 weeks ago, message: fixes to sql query
+4820ea7 was Lara, 3 weeks ago, message: more updates to answersphp
+4ffadfa was Lara, 3 weeks ago, message: added data validation for empty search
+367a944 was Lara, 3 weeks ago, message: added results, search and answers php files
+39c3fa4 was Lara, 3 weeks ago, message: updates to search and dataaccess files
+2881a94 was Lara, 3 weeks ago, message: created search php page and set up test pdo connection
+305a66b was Lara, 3 weeks ago, message: test database connection
+b4b1896 was Lara, 3 weeks ago, message: removed files created for test purposes
+bdc9338 was Lara, 3 weeks ago, message: added mini templator
+a2462a7 was Lara, 5 weeks ago, message: more
+f42aa21 was Lara, 5 weeks ago, message: add my file
+3cfed21 was Lara, 5 weeks ago, message: new files
+21e9d39 was larissa.wilkinson@gmail.com, 6 weeks ago, message: done
+e3506ae was larissa.wilkinson@gmail.com, 6 weeks ago, message: first commit
+9bb66ae was Ubuntu, 6 weeks ago, message: first commit
+7f7d0b0 was Ubuntu, 6 weeks ago, message: added test connection connect.php
