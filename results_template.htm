@@ -1,0 +1,39 @@
+<link href="./css/styles.css" rel="stylesheet">
+<html>
+<head>
+</head>
+<body>
+<h1> Winestore Results </h1>
+
+<p>${results}</p>
+
+<table>
+<tr>
+    <th>Wine Name</th>
+    <th>Grape Varieties</th>
+    <th>Year</th>
+    <th>Winery</th>
+    <th>Region</th>
+    <th>Cost per Bottle</th>
+    <th>Total Stock Sold</th>
+    <th>Total Sales Revenue</th>
+    <th>Stock Available</th>
+</tr>
+<!-- $BeginBlock block1 -->
+<tr>
+    <td>${WineName}</td>
+    <td>${WineVarieties}</td>
+    <td>${Year}</td>
+    <td>${Winery}</td>
+    <td>${Region}</td>
+    <td>$ ${Cost}</td>
+    <td>${TotalSold}</td>
+    <td>$ ${TotalSalesRevenue}</td>
+    <td>${Stock}</td>
+</tr>
+<!-- $EndBlock block1 -->
+
+</table>
+
+</body>
+</html>

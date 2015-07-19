@@ -1,56 +1,27 @@
-<link href="./css/styles.css" rel="stylesheet">
-<html>
-<head>
-</head>
-<body>
-
-<h1> Winestore Results </h1>
 <?php
 session_start();
+require_once ("./mini/MiniTemplator.class.php");
+$t = new MiniTemplator;
+$t->readTemplateFromFile ("results_template.htm");
 
 if (isset($_SESSION['results'])) {
-    echo '<p>' . $_SESSION['results'] . '</p>';
+	$t->setVariable ("results", $_SESSION['results']);
 }
 
-
-?>
-
-
-<table>
-<tr>
-    <th>Wine Name</th>
-    <th>Grape Varieties</th>
-    <th>Year</th>
-    <th>Winery</th>
-	<th>Region</th>
-    <th>Cost per Bottle</th>
-    <th>Total Stock Sold</th>
-    <th>Total Sales Revenue</th>
-	<th> Stock Available </th>
-  </tr>
-<?php
 // get the results from the session object from answers.php and form a table with the output
 $res = $_SESSION['queryRes'];
 
-
 foreach ($res as $results) {
-    echo '<tr>';
-    echo '<td>' . htmlspecialchars($results["WineName"]) . '</td>';
-    echo '<td>' . htmlspecialchars($results["WineVarieties"]) . '</td>';
-    echo '<td>' . htmlspecialchars($results["Year"]) . '</td>';
-    echo '<td>' . htmlspecialchars($results["Winery"]) . '</td>';
-    echo '<td>' . htmlspecialchars($results["Region"]) . '</td>';
-    echo '<td>$' . htmlspecialchars($results["Cost"]) . '</td>';
-    echo '<td>' . htmlspecialchars($results["TotalSold"]) . '</td>';
-    echo '<td>$' . htmlspecialchars($results["TotalSalesRevenue"]) . '</td>';
-    echo '<td>' . htmlspecialchars($results["Stock"]) . '</td>';
-    echo '</tr>';
+    $t->setVariable ("WineName", htmlspecialchars($results["WineName"]));
+    $t->setVariable ("WineVarieties", htmlspecialchars($results["WineVarieties"]));
+	$t->setVariable ("Year", htmlspecialchars($results["Year"]));
+	$t->setVariable ("Winery", htmlspecialchars($results["Winery"]));
+	$t->setVariable ("Region", htmlspecialchars($results["Region"]));
+	$t->setVariable ("Cost", htmlspecialchars($results["Cost"]));
+	$t->setVariable ("TotalSold", htmlspecialchars($results["TotalSold"]));
+	$t->setVariable ("TotalSalesRevenue", htmlspecialchars($results["TotalSalesRevenue"]));
+	$t->setVariable ("Stock", htmlspecialchars($results["Stock"]));
+	$t->addBlock ("block1");
 }
-
-
+$t->generateOutput();
 ?>
-
-</table>
-
-</body>
-</html>
